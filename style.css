@@ -1,0 +1,97 @@
+* {
+  padding: 0;
+  margin: 0;
+}
+
+:root {
+  box-sizing: border-box;
+  --card-bg: lightblue;
+}
+
+.header {
+  font-size: 25px;
+  background-color: black;
+  color: white;
+  text-align: center;
+}
+
+#content {
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+  padding: 20px;
+  justify-items: center;
+}
+
+.card {
+  width: 250px;
+  /* height: 100px; */
+  background-color: var(--card-bg);
+  padding: 10px;
+  display: grid;
+  grid-template-rows: repeat(3, auto) 1fr;
+}
+
+.card > * {
+  padding: 5px 0;
+}
+
+.cardTitle {
+  font-size: larger;
+  font-weight: bold;
+}
+
+
+.cardRead {
+  align-self: end;
+}
+
+#formContainer {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  left: 0;
+  top: 0;
+  background-color: rgba(0, 0, 0, 0.52);
+  z-index: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  display: none;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  background-color: white;
+  padding: 50px;
+  position: relative;
+}
+
+input {
+  margin-bottom: 10px;
+}
+
+#formClose {
+ position: absolute;
+ right: 10px;
+ top: 10px;
+
+ width: 20px;
+ height: 20px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+
+ background-color: lightgrey;
+ border-radius: 100%;
+ border: 0;
+ padding: 5px;
+ cursor: pointer;
+
+}
+
+img {
+  max-width: 100%;
+}
+
