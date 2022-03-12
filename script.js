@@ -1,56 +1,57 @@
+let myLibrary = [];
 
-let myLibrary = []
-
-function Book(author, title, numPages, readStatus) {
-  this.author = author;
-  this.title = title;
-  this.numPages = numPages;
-  this.readStatus = readStatus;
+class Book {
+  constructor(author, title, numPages, readStatus) {
+    this.author = author;
+    this.title = title;
+    this.numPages = numPages;
+    this.readStatus = readStatus;
+  }
 }
 
-function addBooktoLibrary(author, title, numPages, readStatus){
-  myLibrary.push(new Book(author, title, numPages, readStatus))
+function addBooktoLibrary(author, title, numPages, readStatus) {
+  myLibrary.push(new Book(author, title, numPages, readStatus));
 }
 
-// there is most likely a better way to do this other than a full re-render, but this will do for now. 
-function reRenderContent (){
-  while(content.firstChild){
-    content.removeChild(content.firstChild)
+// there is most likely a better way to do this other than a full re-render, but this will do for now.
+function reRenderContent() {
+  while (content.firstChild) {
+    content.removeChild(content.firstChild);
   }
 
   generateDisplay();
 }
 
-function createCard (book) {
+function createCard(book) {
   //declare parent element
-  let card = document.createElement('div');
+  let card = document.createElement("div");
   card.classList = "card";
 
   card.dataset.index = myLibrary.indexOf(book);
 
   //declare future children
-  let titleBox = document.createElement('div');
-  titleBox.classList = "cardTitle"
+  let titleBox = document.createElement("div");
+  titleBox.classList = "cardTitle";
 
-  let authorBox = document.createElement('div');
-  let numPagesBox = document.createElement('div');
+  let authorBox = document.createElement("div");
+  let numPagesBox = document.createElement("div");
 
-  let readStatusBox = document.createElement('div');
-  readStatusBox.classList = "cardRead"
+  let readStatusBox = document.createElement("div");
+  readStatusBox.classList = "cardRead";
 
-  let deleteBtn = document.createElement('button');
-  deleteBtn.innerText = "Delete"
+  let deleteBtn = document.createElement("button");
+  deleteBtn.innerText = "Delete";
 
-  deleteBtn.addEventListener('click', () => {
+  deleteBtn.addEventListener("click", () => {
     removeBook(card.dataset.index);
-  })
+  });
 
-  let readStatusToggle = document.createElement('button');
-  readStatusToggle.innerText = "Read Toggle"
+  let readStatusToggle = document.createElement("button");
+  readStatusToggle.innerText = "Read Toggle";
 
-  readStatusToggle.addEventListener('click', () => {
-    toggleRead(card.dataset.index)
-  })
+  readStatusToggle.addEventListener("click", () => {
+    toggleRead(card.dataset.index);
+  });
 
   //fill children content
   titleBox.innerText = book.title;
@@ -59,10 +60,10 @@ function createCard (book) {
 
   let readStatusMsg;
 
-  if(book.readStatus){
-    readStatusMsg = "Status: Read"
-  }else {
-    readStatusMsg = " Status: Unread"
+  if (book.readStatus) {
+    readStatusMsg = "Status: Read";
+  } else {
+    readStatusMsg = " Status: Unread";
   }
   readStatusBox.innerText = readStatusMsg;
 
@@ -73,85 +74,82 @@ function createCard (book) {
   card.appendChild(readStatusBox);
   card.appendChild(deleteBtn);
   card.appendChild(readStatusToggle);
-  
+
   return card;
 }
 
 // generate display using create card method for each item in array
-function generateDisplay () {
-  for (let i = 0; i < myLibrary.length; i++){
-    
-    let newCard = createCard(myLibrary[i])
-    content.appendChild(newCard)
+function generateDisplay() {
+  for (let i = 0; i < myLibrary.length; i++) {
+    let newCard = createCard(myLibrary[i]);
+    content.appendChild(newCard);
   }
 }
 
-function addBook () {  
+function addBook() {
+  addBooktoLibrary(
+    bookAuthor.value,
+    bookTitle.value,
+    bookLength.value,
+    bookReadStatus.checked
+  );
 
-  addBooktoLibrary(bookAuthor.value, bookTitle.value, bookLength.value, bookReadStatus.checked)
-
-  bookTitle.value = '';
-  bookAuthor.value = '';
-  bookLength.value = '';
+  bookTitle.value = "";
+  bookAuthor.value = "";
+  bookLength.value = "";
   bookReadStatus.checked = false;
 }
 
-function removeBook (index) {
+function removeBook(index) {
   myLibrary.splice(index, 1);
   reRenderContent();
 }
 
-function toggleRead (index){
-  if (myLibrary[index].readStatus){
+function toggleRead(index) {
+  if (myLibrary[index].readStatus) {
     myLibrary[index].readStatus = false;
     reRenderContent();
-    return
+    return;
   }
   myLibrary[index].readStatus = true;
   reRenderContent();
 }
 
-
-  addBooktoLibrary('J.K.R', "Harry Potter", 200, false)
-  addBooktoLibrary('Tolkien', "Lord of the Rings", 500, false)
-  addBooktoLibrary('Miguel de Cervantes', "Done Quixote", 400, false)
-  addBooktoLibrary('Miguel de Cervantes', "Done Quixote", 400, false)
-  addBooktoLibrary('Miguel de Cervantes', "Done Quixote", 400, false)
-
+addBooktoLibrary("J.K.R", "Harry Potter", 200, false);
+addBooktoLibrary("Tolkien", "Lord of the Rings", 500, false);
+addBooktoLibrary("Miguel de Cervantes", "Done Quixote", 400, false);
+addBooktoLibrary("Miguel de Cervantes", "Done Quixote", 400, false);
+addBooktoLibrary("Miguel de Cervantes", "Done Quixote", 400, false);
 
 //content div
-const content = document.getElementById('content')
+const content = document.getElementById("content");
 
 //form container
-const formContainer = document.getElementById('formContainer')
+const formContainer = document.getElementById("formContainer");
 
+const bookTitle = document.getElementById("bookTitle");
+const bookAuthor = document.getElementById("bookAuthor");
+const bookLength = document.getElementById("bookLength");
+const bookReadStatus = document.getElementById("bookReadStatus");
 
-const bookTitle = document.getElementById('bookTitle');
-const bookAuthor = document.getElementById('bookAuthor');
-const bookLength = document.getElementById('bookLength');
-const bookReadStatus = document.getElementById('bookReadStatus');
-
-generateDisplay()
-
+generateDisplay();
 
 // --- EVENT LISTENERS ---
-document.getElementById('bookAddBtn').addEventListener('click', () => {
+document.getElementById("bookAddBtn").addEventListener("click", () => {
   formContainer.style.display = "flex";
-})
+});
 
-document.getElementById('formClose').addEventListener('click', () => {
+document.getElementById("formClose").addEventListener("click", () => {
   formContainer.style.display = "none";
-})
+});
 
-document.getElementById('submitBook').addEventListener('click', () => {
+document.getElementById("submitBook").addEventListener("click", () => {
   addBook();
   formContainer.style.display = "none";
   reRenderContent();
-
-})
-
+});
 
 // TODO
 //  - Add button to change read status
 //  - Refactor re-render strategy for performance
-//  - 
+//  -
