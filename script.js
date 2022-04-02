@@ -1,3 +1,5 @@
+import { qsa, qs, createElement } from './helperFunctions/domUtils.js';
+
 let myLibrary = [];
 
 class Book {
@@ -23,57 +25,66 @@ function reRenderContent() {
 }
 
 function createCard(book) {
-  //declare parent element
-  let card = document.createElement("div");
-  card.classList = "card";
+  const card = createElement('div', {
+    class: 'card',
+    dataset: { index: myLibrary.indexOf(book) },
+  });
 
-  card.dataset.index = myLibrary.indexOf(book);
+  // Title Box
+  const titleBox = createElement('div', {
+    class: 'cardTitle',
+    text: book.title,
+  });
 
-  //declare future children
-  let titleBox = document.createElement("div");
-  titleBox.classList = "cardTitle";
+  // Author Box
+  const authorBox = createElement('div', {
+    text: `Author: ${book.author}`,
+  });
 
-  let authorBox = document.createElement("div");
-  let numPagesBox = document.createElement("div");
+  // Page Length Box
+  const numPagesBox = createElement('div', {
+    text: `Page Length: ${book.numPages}`,
+  });
 
-  let readStatusBox = document.createElement("div");
-  readStatusBox.classList = "cardRead";
+  //check read status
+  let readStatusMsg;
+  if (book.readStatus) {
+    readStatusMsg = 'Status: Read';
+  } else {
+    readStatusMsg = ' Status: Unread';
+  }
 
-  let deleteBtn = document.createElement("button");
-  deleteBtn.innerText = "Delete";
+  // Read Status Box
+  const readStatusBox = createElement('div', {
+    class: 'cardRead',
+    text: readStatusMsg,
+  });
 
-  deleteBtn.addEventListener("click", () => {
+  // Delete Button
+  const deleteBtn = createElement('button', {
+    text: 'Delete',
+  });
+  deleteBtn.addEventListener('click', () => {
     removeBook(card.dataset.index);
   });
 
-  let readStatusToggle = document.createElement("button");
-  readStatusToggle.innerText = "Read Toggle";
-
-  readStatusToggle.addEventListener("click", () => {
+  // Read Toggle Box
+  const readStatusToggle = createElement('button', {
+    text: 'Read Toggle',
+  });
+  readStatusToggle.addEventListener('click', () => {
     toggleRead(card.dataset.index);
   });
 
-  //fill children content
-  titleBox.innerText = book.title;
-  authorBox.innerText = `Author: ${book.author}`;
-  numPagesBox.innerText = `Page Length: ${book.numPages}`;
-
-  let readStatusMsg;
-
-  if (book.readStatus) {
-    readStatusMsg = "Status: Read";
-  } else {
-    readStatusMsg = " Status: Unread";
-  }
-  readStatusBox.innerText = readStatusMsg;
-
   //add child elements to parent
-  card.appendChild(titleBox);
-  card.appendChild(authorBox);
-  card.appendChild(numPagesBox);
-  card.appendChild(readStatusBox);
-  card.appendChild(deleteBtn);
-  card.appendChild(readStatusToggle);
+  card.append(
+    titleBox,
+    authorBox,
+    numPagesBox,
+    readStatusBox,
+    deleteBtn,
+    readStatusToggle
+  );
 
   return card;
 }
@@ -94,9 +105,9 @@ function addBook() {
     bookReadStatus.checked
   );
 
-  bookTitle.value = "";
-  bookAuthor.value = "";
-  bookLength.value = "";
+  bookTitle.value = '';
+  bookAuthor.value = '';
+  bookLength.value = '';
   bookReadStatus.checked = false;
 }
 
@@ -115,39 +126,42 @@ function toggleRead(index) {
   reRenderContent();
 }
 
-addBooktoLibrary("J.K.R", "Harry Potter", 200, false);
-addBooktoLibrary("Tolkien", "Lord of the Rings", 500, false);
-addBooktoLibrary("Miguel de Cervantes", "Done Quixote", 400, false);
-addBooktoLibrary("Miguel de Cervantes", "Done Quixote", 400, false);
-addBooktoLibrary("Miguel de Cervantes", "Done Quixote", 400, false);
+addBooktoLibrary('J.K.R', 'Harry Potter', 200, false);
+addBooktoLibrary('Tolkien', 'Lord of the Rings', 500, false);
+addBooktoLibrary('Miguel de Cervantes', 'Done Quixote', 400, false);
+addBooktoLibrary('Miguel de Cervantes', 'Done Quixote', 400, false);
+addBooktoLibrary('Miguel de Cervantes', 'Done Quixote', 400, false);
 
 //content div
-const content = document.getElementById("content");
+const content = document.getElementById('content');
 
 //form container
-const formContainer = document.getElementById("formContainer");
+const formContainer = document.getElementById('formContainer');
 
-const bookTitle = document.getElementById("bookTitle");
-const bookAuthor = document.getElementById("bookAuthor");
-const bookLength = document.getElementById("bookLength");
-const bookReadStatus = document.getElementById("bookReadStatus");
+//form Inputs
+const bookTitle = document.getElementById('bookTitle');
+const bookAuthor = document.getElementById('bookAuthor');
+const bookLength = document.getElementById('bookLength');
+const bookReadStatus = document.getElementById('bookReadStatus');
 
 generateDisplay();
 
 // --- EVENT LISTENERS ---
-document.getElementById("bookAddBtn").addEventListener("click", () => {
-  formContainer.style.display = "flex";
+document.getElementById('bookAddBtn').addEventListener('click', () => {
+  formContainer.style.display = 'flex';
 });
 
-document.getElementById("formClose").addEventListener("click", () => {
-  formContainer.style.display = "none";
+document.getElementById('formClose').addEventListener('click', () => {
+  formContainer.style.display = 'none';
 });
 
-document.getElementById("submitBook").addEventListener("click", () => {
+document.getElementById('submitBook').addEventListener('click', () => {
   addBook();
-  formContainer.style.display = "none";
+  formContainer.style.display = 'none';
   reRenderContent();
 });
+
+function validityCheck() {}
 
 // TODO
 //  - Add button to change read status
