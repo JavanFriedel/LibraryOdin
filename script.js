@@ -115,6 +115,10 @@ function toggleRead(index) {
   reRenderContent();
 }
 
+function showError(){
+  bookLabel.textContent = "Book Title is Invalid";
+}
+
 addBooktoLibrary("J.K.R", "Harry Potter", 200, false);
 addBooktoLibrary("Tolkien", "Lord of the Rings", 500, false);
 addBooktoLibrary("Miguel de Cervantes", "Done Quixote", 400, false);
@@ -128,9 +132,12 @@ const content = document.getElementById("content");
 const formContainer = document.getElementById("formContainer");
 
 const bookTitle = document.getElementById("bookTitle");
+const bookLabel = document.getElementById("bookLabel");
+
 const bookAuthor = document.getElementById("bookAuthor");
 const bookLength = document.getElementById("bookLength");
 const bookReadStatus = document.getElementById("bookReadStatus");
+
 
 generateDisplay();
 
@@ -143,7 +150,14 @@ document.getElementById("formClose").addEventListener("click", () => {
   formContainer.style.display = "none";
 });
 
-document.getElementById("submitBook").addEventListener("click", () => {
+document.getElementById("submitBook").addEventListener("click", (event) => {
+  if(!bookTitle.validity.valid){
+    showError();
+    event.preventDefault();
+  }
+
+  bookLabel.textContent = "Book Title:";
+  
   addBook();
   formContainer.style.display = "none";
   reRenderContent();

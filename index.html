@@ -15,14 +15,14 @@
     <div id="content"></div>
 
     <div id="formContainer">
-      <form id="addBookForm" action="">
+      <form id="addBookForm" action="" preventDefault>
         <h3>Add a new Book</h3>
-        <label for="bookTitle">Book Title:</label>
-        <input type="text" id="bookTitle" />
+        <label for="bookTitle" id="bookLabel" >Book Title:</label>
+        <input type="text" id="bookTitle" minlength="3" required />
         <label for="bookAuthor">Author:</label>
-        <input type="text" id="bookAuthor" />
+        <input type="text" id="bookAuthor" inlength="1" required/>
         <label for="bookLength">Page Count</label>
-        <input type="number" id="bookLength" />
+        <input type="number" id="bookLength" inlength="1" required/>
         <div>
           <label for="bookReadStatus"> Have you read this book?</label>
           <input type="checkbox" name="bookReadStatus" id="bookReadStatus" />
